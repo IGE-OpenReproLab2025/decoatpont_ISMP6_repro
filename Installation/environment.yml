@@ -1,0 +1,16 @@
+name: ISMP6
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - matplotlib
+  - scipy
+  - cartopy
+  - xarray
+  - dask
+  - pandas
+  - pip
+  - pip:
+    - netcdf4
+    - cmocean
