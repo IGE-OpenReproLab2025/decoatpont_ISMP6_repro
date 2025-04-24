@@ -21,10 +21,11 @@ importlib.reload(ismip)
 #IGE / ISMIP6 internship
 #
 #
-#PLEASE READ README () FOR MORE INFORMATION ON THIS SCRIPT
+#PLEASE READ README FOR MORE INFORMATION ON THIS SCRIPT
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 print('----- BEGINING OF RMSE COMPUTATION PROGRAM -----')
+
 #definition of the simulations and assosiated experiment
 simulation = {
     'DC_ISSM' : 10 ,
@@ -44,7 +45,7 @@ simulation = {
 
 vuw = ['VUW_PRISM1', 'VUW_PRISM2']#for a following condition
 
-#target mask parameters (change)
+#target mask parameters
 print('--- Selection of the target mask ---')
 target_simu = input('Enter a simulation (e.g ULB_fETISh-KoriBU2): ')
 target_exp = input('Enter an experiment (e.g expAE06): ')
@@ -53,7 +54,6 @@ target_year_str = input('Enter a or several target years(separated by coma): ')
 target_year = [int(a.strip()) for a in target_year_str.split(',') if a.strip()]
 target_index = [a - 2016 for a in target_year]
 
-
 target_data = xr.open_dataset(f'/home/jovyan/private-storage/result/Grounding_mask/{target_simu}/grounding_mask_{target_simu}_{target_exp}.nc')
 
 #other parameters
@@ -61,10 +61,10 @@ where = 'j'
 
 #colors
 colors = plt.get_cmap('tab20').colors
-
 color_comp = ListedColormap(['wheat', 'aliceblue'])
 color_comp.set_bad(color='lightgrey')
 color_target = ListedColormap(['indianred'])
+
 
 print('--- Begining of computation ---')
 
@@ -79,19 +79,24 @@ for index in target_index:
     print(f'COMPUTATION FOR {year_index}:')
     for simu, nb_exp in simulation.items():
         # -------- SIMULATION AND EXPERIMENT LOOP --------
+        print(f'Computation for {simu}:')
         min_table_simu = []
         plt.figure(figsize=(12, 6))
         exp_list = [f'expAE{str(i).zfill(2)}' for i in range(1, nb_exp + 1)]
 
+        #some simulation don't have all the experiment
         if simu == 'UNN_Ua':
             exp_list = [exp for exp in exp_list if exp not in ['expAE24']]
         if simu in vuw:
             exp_list = [exp for exp in exp_list if exp not in ['expAE08', 'expAE09']]
         
         for i, exp in enumerate(exp_list):
+            print(f'{exp} ({i}/{len(exp_list)})')
             comp_data = xr.open_dataset(f'/home/jovyan/private-storage/result/Grounding_mask/{simu}/grounding_mask_{simu}_{exp}.nc')
 
+            #RMSE computation using local function
             rmse_target_comp = ismip.compute_rmse(target_mask, comp_data, where)
+            print('RMSE computation finished')
 
             time = comp_data.time.values
             years = comp_data.time.dt.year.values
@@ -109,7 +114,8 @@ for index in target_index:
             os.makedirs(save_dir, exist_ok=True)
             df.to_csv(f'{save_dir}/RMSE_{exp}_{year_index}.csv', index=False)
             print(f'CSV file {exp} saved successfully!')
-            
+
+            #Plot experiment RMSE vs years
             color = colors[i % len(colors)]
             plt.plot(years, rmse_target_comp, color=color, label=f'{simu} {exp} (min={min_rmse:.4f} in {min_year})')
         
@@ -128,7 +134,7 @@ for index in target_index:
         min_df.to_csv(f'{save_dir}/min_RMSE_{target_simu}_{year_index}_{simu}.csv', index=False)
         print(f"Minimum table {target_simu} {year_index} {simu} saved successfully")
         
-        #global csv TODO
+        #global summary CSV 
         mini = pd.read_csv(f'{save_dir}/min_RMSE_{target_simu}_{year_index}_{simu}.csv')
         rmse = mini['min_RMSE'].values
         date = mini['min_year'].values
@@ -146,4 +152,4 @@ for index in target_index:
     print(f'All done for {year_index}')
 
 print('Everything seems fine ~(°w°~)')
-print('----- END OF PROGRAM -----')      
+print('----- END OF PROGRAM -----')
