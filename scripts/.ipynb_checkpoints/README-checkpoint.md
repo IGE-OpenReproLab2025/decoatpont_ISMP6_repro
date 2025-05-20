@@ -58,3 +58,36 @@ Enter a simulation (e.g. ULB_fETISh-KoriBU2): PIK_PISM
 Enter an experiment (e.g. expAE06): expAE07
 Enter a or several target years(separated by comma): 2080,2100
 ```
+
+## plot_mask_comparison.py
+This script generates a comparative visualization of grounded masks from ISMIP6 simulations relative to a target observation-based dataset (BedMachine). It overlays the model results with the target mask to assess spatial agreement in the Amundsen Embayment region.
+
+The visual comparison highlights the mask at the year with the lowest Root Mean Square Error (RMSE) for each simulation, based on a precomputed summary table. 
+
+### Run the scrpit
+```bash
+python3 plot_mask_comparison.py
+```
+
+>[!NOTE]
+>Depending on your Python version, this command may vary
+
+### Input
+No user input needed, but you may want to check the path to data.
+
+### Proccessing steps
+1. Target mask computation
+The target mask is derived from the BedMachine dataset unsing the difference between surface elevation and ice thickness and compared to the bedrock elevation.
+
+2. Simulation mask loading
+For each listed simulation, the script reads the year with the minimum RMSE and associated experiment frome the summary CSV. Then loads the corresponding grounding mask.
+
+3. Visualization
+Each subplot displays the simulation grounding mask overlaid with the target mask for visual comparison.
+
+4. Output structure
+A .png figure comparing the target and simulation grounding mask:
+```bash
+/current_diectory/
+│── mask_comp_BedMachine_.png
+```

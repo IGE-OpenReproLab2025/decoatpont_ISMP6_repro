@@ -58,6 +58,7 @@ target_data = xr.open_dataset(f'/home/jovyan/private-storage/result/Grounding_ma
 
 #other parameters
 where = 'j'
+region = input('Enter the region of Antarctica (Ross or Amundsen): ')
 
 #colors
 colors = plt.get_cmap('tab20').colors
@@ -95,7 +96,7 @@ for index in target_index:
             comp_data = xr.open_dataset(f'/home/jovyan/private-storage/result/Grounding_mask/{simu}/grounding_mask_{simu}_{exp}.nc')
 
             #RMSE computation using local function
-            rmse_target_comp = ismip.compute_rmse(target_mask, comp_data, where)
+            rmse_target_comp = ismip.compute_rmse(target_mask, comp_data, region, where)
             print('RMSE computation finished')
 
             time = comp_data.time.values
