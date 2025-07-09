@@ -1,17 +1,87 @@
-# Project ISMP6 
+# Outflow of the Antarctic ice sheet: is it consistente across models for similar geometries?
 
-Chercher a connaitre l'influence de la géométie de la ligne d'échouage (gounrding line) sur 
+The alarming acceleration of global sea level rise rate state the importance of resolving the future climate
+prediction uncertainties. The Antarctic Ice Sheet is one of the main potential contributing factor to future
+sea level rise, which contribution is still the most uncertain. To account its impact we look a the ice
+outflow of the AIS in a key region: the Amundsen Sea Sector.
+
+To do so, we test Schoof 2007 two dimensional equation defining ice flux at the grounding line (line that
+separates the part of the ice sheet that is resting on the bedrock and the floating part) as a function of the
+sliding law, the ice rheology, and the ice thickness. Assuming that those parameters are the same across
+three dimensional ISMP6 model ensemble, we compare the ice flux at the grounding line.
+
+Therefore, we find similar grounding line geometries, using RMSE, based on defined target: the observed
+grounding line, a moderately retreated grounding line, and a largely retreated one (both model based).
+We find that, for three dimensional models, the mean ice flux at the grounding line increase with its
+retreat. Data assimilation models compute ice flux at the grounding line with a better accuracy than Spin
+up models for the current grounding line geometry. However, for all the chosen targets the large ice flux
+spread shows the difficulty with which models compute ice flux at the grounding line, even for models
+with the same sliding law and sliding coefficient. Leading us to discuss the choice of comparison metric
+and target, and looking if other regions exhibit the same results.
 
 
 ## Contributors 
-Gaël Durand
-Cyrille Mosbeux
 Marine de Coatpont
 
+Supervisor: Gaël Durand and Cyrille Mosbeux
+
+
 ## Material
-1. Installation of environment and dataset
+1. Installation of environment and data
 In the directory `Installation`, you will find all the instruction needed to replicate the environment in which I worked.
 The file `install_ISMP6_dataset.md` will guide you through the setup installation. 
 
+2. Where you want your work
+Modify `config.py` first two variables to stipulate where your data are stored with `DATA_PATH` and where your scripts are (where this directory is) with `SAVE_PATH`
+
+3. Reproduce all the work of my intership
+The script in this directory are all the scripts use in my internship, you can either run them individualy in the following order:
+
+- `compute_mask.py`
+- `compute_RMSE_global.py`
+- `compute_gl_flux.py`
+- `plot_comp_flux.py`
+- `plot_diag.py`
+- `RMSE_flux.py`
+
+Or use `compute_all_work.py` script. This script will automatize running the other script in your terminal.
+
+4. Use the scripts for your own work
+You will find in `Specifi_script` the same script but for a more personal usage, you will be able to chose the target you want using input from the terminal.
+
+>[!NOTE]
+>It is still important to follow the previous order to avoid mistakes.
+
+For more information on each script please read `README_SCRIPT.md`.
+
+5. Result and output
+All the netCDF files, figures and CSV files will be saved in the `Result` directory folowing this structure:
+
+```bash
+/all script
+	|____Function/
+	|	|_____ inti.py
+	|		    function.py
+	|
+	|____ Result/
+		|
+		|_____ Grounded_mask/
+		|	   |_____ {simu}/
+		|
+		|_____ RMSE/
+		|	   |_____ {target_simu}_{comparison_simu}/
+		|	   |	      |_____ min_{target}_{exp}.csv
+		|	   |          |_____ RMSE_{target}_{year}.png
+		|	   |_____ Summary_{target}_{year}.csv
+		|
+		|_____ Ice_flux/
+        |      |_____ {simu}_{exp}_{year_simu}_diag.png
+		|	   |_____ {simu}
+		|		      |______ ligroundf_{simu}_{exp}_{year}.nc
+		|
+		|_____ Plot/
+
+```
+
 ## Licence
-...
+Find in `license.txt` for more information

@@ -7,6 +7,21 @@ The purpose of this file is to help you download all ISMP6 simulation to replica
 The instruction provided are for Unix.
 
 ## Obtaining ISMP6 datasets
+Download the data using Globus Connect Personnal
+Install the appropriete version of the app for your computer then do the following steps:
+
+- Create an account
+- Create your own server with the path you want to save your data into
+- Connect to ther server `GHub-ISMIP6-Projections-2300`
+- Start a download requests
+
+>[!NOTE]
+>You can also use you terminal to download the data.
+>But it can rise error if you do not have the capacity to open a navigator window inside it.
+>In addition is you are on the UGA campus the connection to Globus will be bloced.
+
+If you want to use you terminal, follow those step:
+
 1. Install `globus`
 In you local terminal or a Jupyterhub terminal, follow these steps:
 
@@ -86,6 +101,7 @@ _please make sure you have numpy installed_
 
 Now that you have download datasets, you'll need to creat a specific conda environment in order to reproduce the work.
 
+
 ## Creat a Conda environment
 If you already have `conda` skip part 1
 Assuming you already have `brew` installed on you computer, 
@@ -109,10 +125,10 @@ Great you succesfully installed conda and entered the conda environent!
 
 2. Create the ISMP6 environment
 Let's now creat a `conda` environment to be able to redo the analysis, this environment will be named `ISMP6`. 
-In you terminal after activating conda and downloading the `environment.yml` (in the repertory) do the following steps:
+In you terminal after activating conda and downloading the `env.yml` (in the repertory) do the following steps:
 
 ```
-conda env create -f environment.yml
+conda env create -f env.yml
 conda activate ISMP6
 conda env list
 ```
