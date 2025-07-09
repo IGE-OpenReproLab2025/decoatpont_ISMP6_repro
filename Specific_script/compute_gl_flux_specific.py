@@ -9,7 +9,7 @@ from skimage import measure
 import config
 
 #LOADING PERSONAL FUNCTION (LIBRARY)
-sys.path.append(f'{config.SAVE_PATH}/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 

@@ -11,7 +11,7 @@ from scipy.interpolate import RegularGridInterpolator
 import config
 
 #load personal function
-sys.path.append('/home/jovyan/private-storage/Decoatpont_m2_ISMP6_personal/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 

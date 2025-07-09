@@ -9,7 +9,7 @@ import os
 import config
 
 #load personal function
-sys.path.append(f'{config.SAVE_PATH}/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 
@@ -23,6 +23,7 @@ importlib.reload(ismip)
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 
+#simulation on with the work has been done
 simulation = {
     'DC_ISSM' : 10 ,
     'IGE_ElmerIce' : 6,
@@ -48,6 +49,8 @@ for simu, nb_exp in simulation.items():
         exp_list = [exp for exp in exp_list if exp not in ['expAE08', 'expAE09']]
         
     for i, exp in enumerate(exp_list):
-        grounded = ismip.compute_grounded_mask(simu, exp, config.WHERE)
-        grounded.to_netcdf(f"{config.PATH_MASK}/grounding_mask_{simu}_{exp}.nc")
+        grounded = ismip.compute_grounding_mask_time(simu, exp)
+        save_dir = f'{config.PATH_MASK}/{simu}'
+        os.makedirs(save_dir, exist_ok=True)
+        grounded.to_netcdf(f"{save_dir}/grounding_mask_{simu}_{exp}.nc")
         print(f'Grounded mask for {simu} {exp} saved.')

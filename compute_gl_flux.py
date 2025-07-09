@@ -9,7 +9,7 @@ from skimage import measure
 import config
 
 #LOADING PERSONAL FUNCTION (LIBRARY)
-sys.path.append(f'{config.SAVE_PATH}/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 
@@ -96,6 +96,7 @@ max_velocity_threshold = 2000  # m/yr
 
 condition = ['ULB_fETISh-KoriBU2', 'UNN_Ua']
 
+# CSV file for the different scenarios
 df_unn = pd.read_csv(f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv')
 df_lsce_grisli2 = pd.read_csv(f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv')
 df_BedMachine = pd.read_csv(f'{config.PATH_RMSE}/Summary_BedMachine.csv')
@@ -202,4 +203,3 @@ for df in dfs:
              # === Save NetCDF ===
             nc_path = f'{config.PATH_IF}/ligroundf_{simu}_{exp}_{time+2016}.nc'
             flux_ds.to_netcdf(nc_path)
-            print('netCDF saved!')

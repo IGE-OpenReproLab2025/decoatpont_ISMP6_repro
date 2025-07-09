@@ -10,7 +10,7 @@ import os
 import config
 
 #load personal function
-sys.path.append('/home/jovyan/private-storage/Decoatpont_m2_ISMP6_personal/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 
@@ -33,8 +33,8 @@ importlib.reload(ismip)
 #------------------------------------------------------------------------------------------------------------------------------------------
 
 targets = ['LSCE_GRISLI2', 'UNN_Ua', 'BedMachine']
-
 #definition of the simulations and assosiated experiment
+
 simulation = {
     'DC_ISSM' : 10 ,
     'IGE_ElmerIce' : 6,
@@ -76,6 +76,13 @@ for target_simu in targets:
         target_mask = target_data.grounding_mask.isel(time = target_index)
     
     if target_simu == 'UNN_Ua':
+        target_exp = 'expAE04'
+        target_year = 2250
+        target_index = target_year - 2016
+        target_data = xr.open_dataset(f'{config.PATH_MASK}/{target_simu}/grounding_mask_{target_simu}_{target_exp}.nc')
+        target_mask = target_data.grounding_mask.isel(time = target_index)
+    
+    if target_simu == 'NORCE_CISM2-MAR364-ERA-t1':
         target_exp = 'expAE04'
         target_year = 2250
         target_index = target_year - 2016

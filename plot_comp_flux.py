@@ -11,7 +11,7 @@ import config
 
 
 #load personal function
-sys.path.append('/home/jovyan/private-storage/Decoatpont_m2_ISMP6_personal/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 
@@ -115,7 +115,7 @@ for target_simu, df_amun in zip(target_simus, dfs):
         year_simu = df_simu['year'].tolist()[0]
 
         if simu != target_simu:
-            # Chemins
+            # path to comparison models
             paths = [
                 f'{config.PATH_IF}/ligroundf_{simu}_{exp}_{year_simu-5}.nc',
                 f'{config.PATH_IF}/ligroundf_{simu}_{exp}_{year_simu-4}.nc',
@@ -130,7 +130,6 @@ for target_simu, df_amun in zip(target_simus, dfs):
                 f'{config.PATH_IF}/ligroundf_{simu}_{exp}_{year_simu+5}.nc'
                ]
 
-            # Ouverture principale (on suppose que celui-ci existe)
             flux = []
 
             for path in paths:
@@ -144,7 +143,7 @@ for target_simu, df_amun in zip(target_simus, dfs):
             ax.scatter(years, flux, label=f'{simu} {exp}, {year_simu}', color=colors[i], marker=shapes[i], alpha=alphas, s=sizes)
 
             flux_mean.append(flux[5])
-    #moyenne
+    #mean and standard deviation
     mean = np.mean(flux_mean)
     std = np.std(flux_mean)
 

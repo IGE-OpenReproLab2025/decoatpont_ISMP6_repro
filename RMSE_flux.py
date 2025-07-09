@@ -11,7 +11,7 @@ import config
 
 
 #load personal function
-sys.path.append('/home/jovyan/private-storage/Decoatpont_m2_ISMP6_personal/Fonction')
+sys.path.append(f'{config.SAVE_PATH}/Function')
 import Function.ISMIP_function as ismip
 importlib.reload(ismip)
 
@@ -21,8 +21,11 @@ importlib.reload(ismip)
 # May 26, 2025
 # IGE / ISMIP6 internship
 #
+# This script plot the RMSE over the absolute difference between comparison and target ice flux at the grounding line for the comparison done in the report.
+# It plots the scatter for each models used as comparison and the linear regression for the different scenaros.
+# Tho colors and the shape of the scatter are the differente scenarios.
 #
-# PLEASE READ README FOR MORE INFORMATION ON THIS SCRIPT
+# PLEASE READ README (README_SCRIPT.md) FOR MORE INFORMATION ON THIS SCRIPT
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 
