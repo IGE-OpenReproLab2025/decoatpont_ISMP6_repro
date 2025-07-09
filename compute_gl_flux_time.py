@@ -19,8 +19,10 @@ importlib.reload(ismip)
 #April 18, 2025
 #IGE / ISMIP6 internship
 #
+# This script compute the ice flux at the grounding line for all the year of the run for the simulaition with the minimum of RMSE based on previous comparison.
+# It saves the data in a netCDF file.
 #
-#PLEASE READ README () FOR MORE INFORMATION ON THIS SCRIPT
+#PLEASE READ README (README_SCRIPT.md) FOR MORE INFORMATION ON THIS SCRIPT
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 
