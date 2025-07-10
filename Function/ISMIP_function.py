@@ -525,8 +525,8 @@ def basin_flux_hand(data, region):
     return flux
 
 def grid_4x4(mask):
-    ref_grid_data = xr.open_dataset(f'{config.PATH_MASK}/IGE_ElmerIce/grounding_mask_IGE_ElmerIce_expAE04.nc')
-    ref_grid = ref_grid_data.grounding_mask.isel(time=0)
+    ref_grid_data = xr.open_dataset(f'{config.SAVE_PATH}/Result/grid4x4.nc')
+    ref_grid = ref_grid_data.grounding_mask
 
     mask_interp = mask.interp(x = ref_grid.x, y = ref_grid.y)
 

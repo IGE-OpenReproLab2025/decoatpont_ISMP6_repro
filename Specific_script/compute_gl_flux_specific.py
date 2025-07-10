@@ -101,8 +101,7 @@ condition = ['ULB_fETISh-KoriBU2', 'UNN_Ua']
 df = pd.read_csv(f'{config.PATH_RMSE}/Summary_{target_simu}_{target_year}.csv')
 
 #opening of dataset of bed machine as a template for the netCDF ouput
-bedmachine_data = xr.open_dataset(f'{config.PATH_SAVE}/Result/BedMachine.nc')
-data_bedmachine = bedmachine_data.ligroundf
+data_bedmachine = xr.open_dataset(f'{config.PATH_SAVE}/Result/BedMachine.nc')
 
 for simu in config.SIMULATIONS:
     print(f'{simu}')

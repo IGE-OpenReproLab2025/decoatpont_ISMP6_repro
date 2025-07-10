@@ -25,9 +25,9 @@ importlib.reload(ismip)
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 
-df_unn = pd.read_csv(f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv')
-df_lsce_grisli2 = pd.read_csv(f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv')
-df_BedMachine = pd.read_csv(f'{config.PATH_RMSE}/Summary_BedMachine.csv')
+df_unn = f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv'
+df_lsce_grisli2 = f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv'
+df_BedMachine = f'{config.PATH_RMSE}/Summary_BedMachine.csv'
 
 dfs = [df_unn, df_lsce_grisli2, df_BedMachine]
 
@@ -39,6 +39,7 @@ color.set_bad(color='gainsboro')
 for df in dfs:
     for simu in config.SIMULATIONS:
         print(f'{simu}')
+        df = pd.read_csv(df)
         df_simu = df[df['simulation'] == simu]
         exp = df_simu['experiment'].tolist()[0]
         year_simu = df_simu['year'].tolist()[0]
@@ -150,13 +151,14 @@ surface_mask = ismip.amundsen_mask(surface)
 surface_mask = xr.where(target_mask == 0, surface_mask, np.nan)
 
 # Velocity data
-target_velo = xr.open_dataset(f'{config.SAVE_PATH}Result/antarctica_velocity_updated_v2.nc')
-vx = target_velo.vx
+target_velo_vx = xr.open_dataset(f'{config.SAVE_PATH}Result/antarctica_velocity_updated_v2_vx.nc')
+vx = target_velo_vx.vx
 vx = ismip.grid_4x4(vx)
 vx_mask = ismip.amundsen_mask(vx)
 vx_mask = xr.where(target_mask == 0, vx_mask, np.nan)
 
-vy = target_velo.vy
+target_velo_vy = xr.open_dataset(f'{config.SAVE_PATH}Result/antarctica_velocity_updated_v2_vy.nc')
+vy = target_velo_vy.vy
 vy = ismip.grid_4x4(vy)
 vy_mask = ismip.amundsen_mask(vy)
 vy_mask = xr.where(target_mask == 0, vy_mask, np.nan)

@@ -18,8 +18,10 @@ importlib.reload(ismip)
 #April 18, 2025
 #IGE / ISMIP6 internship
 #
+# This script compute the grounded and floating part of the ice sheet and save the result in a netCDF file.
+# The netCDF file have the following name: grounding_mask_<simulation>_<experiment>.nc
 #
-#PLEASE READ README () FOR MORE INFORMATION ON THIS SCRIPT
+#PLEASE READ README (README_SCRIPT.md) FOR MORE INFORMATION ON THIS SCRIPT
 #
 #------------------------------------------------------------------------------------------------------------------------------------------
 

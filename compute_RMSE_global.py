@@ -21,12 +21,10 @@ importlib.reload(ismip)
 # IGE / ISMIP6 internship
 #
 # This script compute the RMSE for the target models chosen in the intersiph report.
-# The computation of the RMSE is done using xskillscore (a python library for netCDF computation)
+# The computation of the RMSE is done using xskillscore (a python library for netCDF computation).
 #
 # The RMSE between each simulation and the target are save in a CSV file in the corresponding directory following this name tag: {target_simu}_{simu}/RMSE_{exp}.csv
-# Other file are saved, figure of the RMSE over the time and the summary of the minimum of RMSE for each simulation
-#
-#------------------------------------------------------------------------------------------------------------------------------------------
+# Other file are saved, figure of the RMSE over the time and the summary of the minimum of RMSE for each simulation.
 #
 # PLEASE READ README (README_SCRIPT.md) FOR MORE INFORMATION ON THIS SCRIPT
 #
@@ -50,6 +48,8 @@ simulation = {
     'VUW_PRISM1' : 10,
     'VUW_PRISM2' : 10,
 }
+
+simulation = {'NORCE_CISM2-MAR364-ERA-t1' : 6}
 
 vuw = ['VUW_PRISM1', 'VUW_PRISM2'] #for a following condition
 
@@ -81,13 +81,6 @@ for target_simu in targets:
         target_index = target_year - 2016
         target_data = xr.open_dataset(f'{config.PATH_MASK}/{target_simu}/grounding_mask_{target_simu}_{target_exp}.nc')
         target_mask = target_data.grounding_mask.isel(time = target_index)
-    
-    if target_simu == 'NORCE_CISM2-MAR364-ERA-t1':
-        target_exp = 'expAE04'
-        target_year = 2250
-        target_index = target_year - 2016
-        target_data = xr.open_dataset(f'{config.PATH_MASK}/{target_simu}/grounding_mask_{target_simu}_{target_exp}.nc')
-        target_mask = target_data.grounding_mask.isel(time = target_index)
 
     for simu, nb_exp in simulation.items():
         # -------- SIMULATION AND EXPERIMENT LOOP --------
@@ -96,7 +89,7 @@ for target_simu in targets:
 
         exp_list = [f'expAE{str(i).zfill(2)}' for i in range(1, nb_exp + 1)]
 
-        #some simulation don't have all the experiment
+        #some simulation do not have all the experiment
         if simu == 'UNN_Ua':
             exp_list = [exp for exp in exp_list if exp not in ['expAE24']]
         if simu in vuw:

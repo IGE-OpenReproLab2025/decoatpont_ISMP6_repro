@@ -36,6 +36,8 @@ Supervisor: Gaël Durand and Cyrille Mosbeux
 In the directory `Installation`, you will find all the instruction needed to replicate the environment in which I worked.
 The file `install_ISMP6_dataset.md` will guide you through the setup installation. 
 
+Some data are to be downloaded from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15853562.svg)](https://doi.org/10.5281/zenodo.15853562) and place in the `Result` directory.
+
 2. Where you want your work
 Modify `config.py` first two variables to stipulate where your data are stored with `DATA_PATH` and where your scripts are (where this directory is) with `SAVE_PATH`
 

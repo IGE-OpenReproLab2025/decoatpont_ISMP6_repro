@@ -34,9 +34,9 @@ sizes = [65, 65, 65, 65, 65, 150, 65, 65, 65, 65, 65]
 flux_amun = [np.full(11,np.nan)]
 flux_mean = []
 
-df_unn = pd.read_csv(f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv')
-df_lsce_grisli2 = pd.read_csv(f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv')
-df_BedMachine = pd.read_csv(f'{config.PATH_RMSE}/Summary_BedMachine.csv')
+df_unn = f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv'
+df_lsce_grisli2 = f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv'
+df_BedMachine = f'{config.PATH_RMSE}/Summary_BedMachine.csv'
 
 dfs = [df_unn, df_lsce_grisli2, df_BedMachine]
 target_simus = ['BedMachine', 'LSCE_GRISLI2', 'UNN_Ua']
@@ -47,11 +47,13 @@ for target_simu, df_amun in zip(target_simus, dfs):
         bedmachine = data_bedmachine.ligroundf
         flux_bedmachine = ismip.basin_flux_hand(bedmachine, config.REGION, config.WHERE)
         target_year = 2015
+
     if target_simu == 'LSCE_GRISLI2':
         target_year = 2150   
         target_exp = 'expAE04'
         target_year = int(target_year)
 
+        #path for the target macht and ±5
         paths_target = [
                 f'{config.PATH_IF}/ligroundf_{target_simu}_{target_exp}_{target_year-5}.nc',
                 f'{config.PATH_IF}/ligroundf_{target_simu}_{target_exp}_{target_year-4}.nc',
@@ -110,7 +112,8 @@ for target_simu, df_amun in zip(target_simus, dfs):
     ax = fig.add_axes([0.1, 0.1, 0.3, 0.6])  # [left, bottom, width, height]
 
     for i, simu in enumerate(config.SIMULATIONS):
-        df_simu = df_amun[df_amun['simulation'] == simu]
+        df = pd.read_csv(df_amun)
+        df_simu = df[df['simulation'] == simu]
         exp = df_simu['experiment'].tolist()[0]
         year_simu = df_simu['year'].tolist()[0]
 

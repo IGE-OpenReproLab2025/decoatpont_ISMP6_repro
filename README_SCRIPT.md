@@ -7,10 +7,9 @@ This file provide explaination for the different scripts of the directory.
 
 ## compute_mask.py and compute_mask_specific.py
 This script compute the grounded and floating part of the Antartic ice sheet. To do soo it uses the models output of base elevation (altitude of the lower ice surface elevation of the ice sheet) and bedrock elevation (bedrock topography):
+
 topg - base ≈ 0 ± ε  if ice is grounded  
 topg - base < 0      if ice is floating
-
-![equation](https://latex.codecogs.com/png.image?\dpi{130}&space;\text{topg}-\text{base}=\begin{cases}0\pm\epsilon&\text{if&space;ice&space;is&space;grounded}\\<0&\text{if&space;ice&space;is&space;floating}\end{cases})
 
 Where $\epsilon$ is a threshold value arbitrarily set to $\epsilon = 0.01$ m to compensate for numerical errors and uncertainties in the outputs of the models.
 
@@ -36,6 +35,7 @@ Output structure
 │   ├── grounding_mask_<expXX>.nc
 
 ```
+
 ### Example
 For the specific script:
 ```bash
@@ -107,7 +107,6 @@ This script computes the ice flux at the grounding line for the minimum simulati
 
 **q(x₉) = H × v × dl**
 
-![equation](https://latex.codecogs.com/png.image?\dpi{130}&space;q(x_g)=H\times%20v\times%20dl)
 
 Using the models output for ice thickness and mean velocity.
 
@@ -158,17 +157,17 @@ For the `specific` script indicate:
 - Velocities (`vx`, `vy`)
 
 9. Compute the normal component of velocity \( v_n \):
-\[
-v_n = vx \cdot n_x + vy \cdot n_y
-\]
+
+v_n = vx * n_x + vy * n_y
+
 - Convert to m/yr
 - Apply filtering for physical consistency
 
 10. Calculate the segmental ice flux at each point:
- \[
- q(x_g) = H \times v_n \times dl
- \]
- - Units: m³/yr
+
+ q(x_g) = H * v_n * dl
+
+Where q(x_g) is in m³/yr
 
 11. Insert values into the output NetCDF file, mapped to the closest `(x, y)` location on the BedMachine grid.
 
@@ -267,6 +266,7 @@ Each subplot displays the simulation grounding mask overlaid with the target mas
 
 4. Output structure
 A .png figure comparing the target and simulation grounding mask:
+
 ```bash
 /current_diectory/
 │── mask_comp_BedMachine_.png
@@ -278,6 +278,7 @@ The goal is to acess if the difference of ice flux at the grounding line are exp
 In color are the different grounded line scenario chosen, and we add the linear regression to see if there is a corelation. 
 
 ### Run the script
+
 ```bash
 python3 plot_mask_comparison.py
 ```
@@ -310,9 +311,9 @@ For the `global` script there is no input needed buet for the `specific` script 
 
 4. Calculate ΔFlux (absolute difference)
 - Compute:  
-  \[
-  \Delta F = |F_\text{comparison} - F_\text{target}|
-  \]
+
+  ΔF = |F_(comparison) - F_(target)|
+
 - This is done separately for:
   - `flux_grisli`
   - `flux_ua`
@@ -322,9 +323,9 @@ For the `global` script there is no input needed buet for the `specific` script 
 - For each model family:
   - Plot scatter points of (ΔFlux, RMSE).
   - Fit a linear regression:  
-    \[
-    \text{RMSE} = a \cdot \Delta F + b
-    \]
+
+    RMSE = a * ΔF + b
+
   - Overlay the regression line and display slope `a` in the legend.
 
 6. Export Figure

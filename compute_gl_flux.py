@@ -7,6 +7,7 @@ import pandas as pd
 from scipy.interpolate import RegularGridInterpolator
 from skimage import measure
 import config
+import os
 
 #LOADING PERSONAL FUNCTION (LIBRARY)
 sys.path.append(f'{config.SAVE_PATH}/Function')
@@ -66,17 +67,16 @@ def interp_field(field):
     This function uses a regular grid interpolator to compute the values of 
     the input field at specified grounding line coordinates.
 
-    Parameters:
-    -----------
-    field : xarray.DataArray
-        The 2D field to be interpolated. It is assumed to have dimensions 
-        corresponding to the y and x coordinates.
+    Input:
+    ------
+        - field : xarray.DataArray, The 2D field to be interpolated. It is assumed to have dimensions corresponding to the y and x coordinates.
 
-    numpy.ndarray
-        An array containing the interpolated values of the field at the 
-        grounding line points.
+    Returns:
+    --------
+        - numpy.ndarray, An array containing the interpolated values of the field at the grounding line points.
 
     Notes:
+    ------
     - The variables `y`, `x`, `y_gl`, and `x_gl` must be defined in the 
       global scope or passed to the function for it to work correctly.
     - The interpolation will return NaN for points outside the bounds of 
@@ -84,8 +84,6 @@ def interp_field(field):
     """
     interp = RegularGridInterpolator((y, x), field.values, bounds_error=False, fill_value=np.nan)
     return interp(np.column_stack((y_gl, x_gl)))
-
-print('----- BEGINING OF PLOT PROGRAM -----')
 
 
 # === Parameters ===
@@ -97,20 +95,21 @@ max_velocity_threshold = 2000  # m/yr
 condition = ['ULB_fETISh-KoriBU2', 'UNN_Ua']
 
 # CSV file for the different scenarios
-df_unn = pd.read_csv(f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv')
-df_lsce_grisli2 = pd.read_csv(f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv')
-df_BedMachine = pd.read_csv(f'{config.PATH_RMSE}/Summary_BedMachine.csv')
+df_unn = f'{config.PATH_RMSE}/Summary_UNN_Ua_2250.csv'
+df_lsce_grisli2 = f'{config.PATH_RMSE}/Summary_LSCE_GRISLI2_2150.csv'
+df_BedMachine = f'{config.PATH_RMSE}/Summary_BedMachine.csv'
 
 dfs = [df_unn, df_lsce_grisli2, df_BedMachine]
 
 #opening of dataset of bed machine as a template for the netCDF ouput
-bedmachine_data = xr.open_dataset(f'{config.PATH_SAVE}/Result/BedMachine.nc')
-data_bedmachine = bedmachine_data.ligroundf
+data_bedmachine = xr.open_dataset(f'{config.SAVE_PATH}/Result/ligroundf_bedmachine.nc')
 
 for df in dfs:  
     for simu in config.SIMULATIONS:
         print(f'{simu}')
+        
         # reading of the simulation, experiement and year for each model
+        df = pd.read_csv(df)
         df_simu = df[df['simulation'] == simu]
         exp = df_simu['experiment'].tolist()[0]
         year_simu = df_simu['year'].tolist()[0]
@@ -201,5 +200,6 @@ for df in dfs:
                 flux_ds.ligroundf.loc[dict(x=x_idx, y=y_idx)] += flux[i]
 
              # === Save NetCDF ===
-            nc_path = f'{config.PATH_IF}/ligroundf_{simu}_{exp}_{time+2016}.nc'
-            flux_ds.to_netcdf(nc_path)
+            path = f'{config.PATH_IF}/{simu}'
+            os.makedirs(path, exist_ok=True)
+            flux_ds.to_netcdf(f'{path}/ligroundf_{simu}_{exp}_{time+2016}.nc')
